@@ -7,10 +7,7 @@ import br.com.alura.scrrenmatch.model.Episodio;
 import br.com.alura.scrrenmatch.service.ConsumoApi;
 import br.com.alura.scrrenmatch.service.ConverterDados;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -83,19 +80,19 @@ public class Principal {
                         .map(d -> new Episodio(t.temporada(), d))
                 ).collect(Collectors.toList()); ;
 
-        episodios.forEach(System.out::println);
+//        episodios.forEach(System.out::println);
 
-        System.out.println("Digite um trecho do Titulo do EP: ");
-        var trechoDoTitulo = ler.nextLine();
-        Optional<Episodio> epBuscado = episodios.stream()
-                .filter(e -> e.getTitulo().toUpperCase().contains(trechoDoTitulo.toUpperCase()))
-                .findFirst();
-        if(epBuscado.isPresent()){
-            System.out.println("Encontrado: ");
-            System.out.println("Temp: "+epBuscado.get().getTemporada());
-        }else {
-            System.out.println("EP nao encontrado");
-        }
+//        System.out.println("Digite um trecho do Titulo do EP: ");
+//        var trechoDoTitulo = ler.nextLine();
+//        Optional<Episodio> epBuscado = episodios.stream()
+//                .filter(e -> e.getTitulo().toUpperCase().contains(trechoDoTitulo.toUpperCase()))
+//                .findFirst();
+//        if(epBuscado.isPresent()){
+//            System.out.println("Encontrado: ");
+//            System.out.println("Temp: "+epBuscado.get().getTemporada());
+//        }else {
+//            System.out.println("EP nao encontrado");
+//        }
 
 //
 //        System.out.println("A partir de qual ano: ");
@@ -112,5 +109,22 @@ public class Principal {
 //                                " Episodio: "+ e.getTitulo() +
 //                                " Data lançamento: "+ e.getDataDeLancamento().format(formatador)
 //                ));
+
+
+        Map<Integer , Double> avaliacaoPorTemporada = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.groupingBy(Episodio::getTemporada,
+                        Collectors.averagingDouble(Episodio::getAvaliacao)));
+        System.out.println(avaliacaoPorTemporada);
+
+        DoubleSummaryStatistics est = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
+        System.out.println("*********************************************");
+        System.out.println("Media: "+ est.getAverage());
+        System.out.println("Nota minima: "+ est.getMin());
+        System.out.println("Nota Maxima: "+ est.getMax());
+        System.out.println("Total de avaliacoes: "+ est.getCount());
+
     }
 }
