@@ -3,12 +3,13 @@ package br.com.alura.scrrenmatch.principal;
 import br.com.alura.scrrenmatch.model.DadosEpisodio;
 import br.com.alura.scrrenmatch.model.DadosSerie;
 import br.com.alura.scrrenmatch.model.DadosTemporada;
+import br.com.alura.scrrenmatch.model.Episodio;
 import br.com.alura.scrrenmatch.service.ConsumoApi;
 import br.com.alura.scrrenmatch.service.ConverterDados;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -59,28 +60,43 @@ public class Principal {
         List<DadosEpisodio> dadosEpisodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList());
-        System.out.println("********************************************************");
-        System.out.println("Top 5 episodios: ");
-        dadosEpisodios.stream()
-                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
-//                .peek(e-> System.out.println("Primeiro filtro (N/A) " + e)) //visualiza oq esta acontecendo
-                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-//                .peek(e-> System.out.println("Ordenacao " + e))
-                .limit(10)
-//                .peek(e-> System.out.println("Limite " + e))
-                .map(e -> e.titulo().toUpperCase())
-//                .peek(e-> System.out.println("Caixa alta " + e))
-                .forEach(System.out::println);
-
-        System.out.println("********************************************************");
 
 
-//        List<Episodio> episodios =  temporadas.stream()
-//                .flatMap(t -> t.episodios().stream()
-//                        .map(d -> new Episodio(t.temporada(), d))
-//                ).collect(Collectors.toList()); ;
+//        System.out.println("********************************************************");
+//        System.out.println("Top 5 episodios: ");
+//        dadosEpisodios.stream()
+//                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+////                .peek(e-> System.out.println("Primeiro filtro (N/A) " + e)) //visualiza oq esta acontecendo
+//                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+////                .peek(e-> System.out.println("Ordenacao " + e))
+//                .limit(10)
+////                .peek(e-> System.out.println("Limite " + e))
+//                .map(e -> e.titulo().toUpperCase())
+////                .peek(e-> System.out.println("Caixa alta " + e))
+//                .forEach(System.out::println);
 //
-//        episodios.forEach(System.out::println);
+//        System.out.println("********************************************************");
+
+
+        List<Episodio> episodios =  temporadas.stream()
+                .flatMap(t -> t.episodios().stream()
+                        .map(d -> new Episodio(t.temporada(), d))
+                ).collect(Collectors.toList()); ;
+
+        episodios.forEach(System.out::println);
+
+        System.out.println("Digite um trecho do Titulo do EP: ");
+        var trechoDoTitulo = ler.nextLine();
+        Optional<Episodio> epBuscado = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(trechoDoTitulo.toUpperCase()))
+                .findFirst();
+        if(epBuscado.isPresent()){
+            System.out.println("Encontrado: ");
+            System.out.println("Temp: "+epBuscado.get().getTemporada());
+        }else {
+            System.out.println("EP nao encontrado");
+        }
+
 //
 //        System.out.println("A partir de qual ano: ");
 //        var ano = ler.nextInt();
