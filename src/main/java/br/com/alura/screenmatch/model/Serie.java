@@ -1,7 +1,5 @@
 package br.com.alura.screenmatch.model;
 
-import br.com.alura.screenmatch.service.ConsultaGpt;
-
 import java.util.OptionalDouble;
 
 public class Serie {
@@ -27,7 +25,7 @@ public class Serie {
         this.genero = Categoria.fromString(dadosSerie.genero().split(",")[0].trim());
         this.atores = dadosSerie.atores();
         this.poste = dadosSerie.poste();
-        this.sinopse = ConsultaGpt.obterTraducao(dadosSerie.sinopse()).trim();
+//        this.sinopse = ConsultaGpt.obterTraducao(dadosSerie.sinopse()).trim();
     }
 
     public String getTitulo() {
@@ -89,12 +87,12 @@ public class Serie {
     @Override
     public String toString() {
         return
-                ", genero= " + genero + '\'' +
-                " titulo= '" + titulo + '\'' +
-                ", totalTemporadas= " + totalTemporadas +
-                ", avaliacoes= " + avaliacoes +
-                ", atores= '" + atores + '\'' +
-                ", poste= '" + poste + '\'' +
-                ", sinopse= '" + sinopse + '\'';
+                "Genero= " + genero + '\'' +
+                "  Titulo= '" + titulo + '\'' +
+                ", Total de Temp= " + totalTemporadas +
+                ", Notas= " + avaliacoes +
+                ", Atores= '" + atores + '\'' +
+                ", Foto de Capa= '" + poste + '\'' +
+                ", Sinopse= '" + sinopse + '\'';
     }
 }
