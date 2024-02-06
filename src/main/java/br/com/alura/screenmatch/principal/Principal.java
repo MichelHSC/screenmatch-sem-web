@@ -131,7 +131,6 @@ public class Principal {
         if(serie.isPresent()) {
 
             var serieEncontrada = serie.get();
-
             List<DadosTemporada> temporadas = new ArrayList<>();
 
             for (int i = 1; i <= serieEncontrada.getTotalTemporadas(); i++) {
@@ -145,6 +144,7 @@ public class Principal {
                     .flatMap(d -> d.episodios().stream()
                             .map(e -> new Episodio(d.numero(), e)))
                     .collect(Collectors.toList());
+
             serieEncontrada.setEpisodios(episodios);
             repositorio.save(serieEncontrada);
         }else {

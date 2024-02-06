@@ -64,7 +64,7 @@ public class SerieService {
     }
 
 
-    public List<EpisodioDTO> obterEpisodiosPorTemporada(Long id, Long numero) {
+    public List<EpisodioDTO> obterEpisodiosPorTemporada(Long id, Integer numero) {
         return repositorio.obterEpisodiosPorTemporada(id,numero)
                 .stream()
                 .map(e -> new EpisodioDTO(e.getTemporada(),e.getNumeroEp(),e.getTitulo()))

@@ -46,8 +46,7 @@ public class Episodio {
 
     }
 
-    public Episodio(Long numero, DadosEpisodio e) {
-    }
+
 
 
     public Long getId() {
